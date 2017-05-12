@@ -14,21 +14,27 @@ os.makedirs(data_dir, exist_ok = True)
 
 def dl_progress(count, block_size, total_size):
     """Progress bar used during download."""
-    length = 50
-    current_size = count * block_size
-    done = current_size * length // total_size
-    togo = length - done
-    prog = "[" + done * "=" + togo * "-" + "]"
-    sys.stdout.write(prog)
-    if(current_size < total_size):
-        sys.stdout.write("\r")
+    if total_size == -1:
+        if count == 0:
+            sys.stdout.write("Unknown size of download.\n")
     else:
-        sys.stdout.write("\n")
+        length = 50
+        current_size = count * block_size
+        done = current_size * length // total_size
+        togo = length - done
+        prog = "[" + done * "=" + togo * "-" + "]"
+        sys.stdout.write(prog)
+        if(current_size < total_size):
+            sys.stdout.write("\r")
+        else:
+            sys.stdout.write("\n")
     sys.stdout.flush()
 
 
 def download_data():
     """Download data."""
+    # direct download from google drive is not working but dataset is
+    # included in the repository
     data = {
             "data.zip": "https://d17h27t6h515a5.cloudfront.net/topher/2016/December/584f6edd_data/data.zip",
             "data_curves.zip": "https://drive.google.com/open?id=0B_2YVqPvaFeTSmtBUDlGcHhTWWc"}
@@ -312,7 +318,8 @@ class Model(object):
 
 if __name__ == "__main__":
     files = download_data()
-    extract_data(files["data.zip"])
+    for fname in files:
+        extract_data(files[fname])
     data = prepare_data()
     summarize(data)
 
