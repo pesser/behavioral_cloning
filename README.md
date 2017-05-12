@@ -42,7 +42,13 @@ To combat overfitting, data use is maximized by utilizing all three camera image
 Training uses the [Adam](https://arxiv.org/abs/1412.6980) optimizer with default parameters to minimize the mean squared error on batches of size 64 for 100 epochs. I consistently find the combination of Adam with ReLU units and [He normalization](https://arxiv.org/abs/1502.01852) to work without problems amongst a large variety of models.
 
 #### Training data
-The [provided sample data](https://d17h27t6h515a5.cloudfront.net/topher/2016/December/584f6edd_data/data.zip) is used together with [additional data](https://drive.google.com/open?id=0B_2YVqPvaFeTSmtBUDlGcHhTWWc) that I collected. It consists of frames collected mainly in curves while driving two laps in forward direction and one lap in reverse direction to get more variety and counteract a bias towards zero steering command by focusing on curves.
+The [provided sample data](https://d17h27t6h515a5.cloudfront.net/topher/2016/December/584f6edd_data/data.zip) is used together with [additional data](https://drive.google.com/open?id=0B_2YVqPvaFeTSmtBUDlGcHhTWWc) that I collected. It consists of frames collected mainly in curves while driving two laps in forward direction and one lap in reverse direction to get more variety and counteract a bias towards zero steering command by focusing on curves. After splitting into training, validation and testing datasets it is summarized as follows:
+
+|  Split   | Samples  |  Height  |  Width   | Channels |
+|----------|----------|----------|----------|----------|
+|  train   |   6879   |   160    |   320    |    3     |
+|  valid   |   1474   |   160    |   320    |    3     |
+|   test   |   1475   |   160    |   320    |    3     |
 
 ### Design documentation
 I had already gained some experience in behavioral cloning for driving simulators in a previous project (see [presentation](https://drive.google.com/file/d/0B_2YVqPvaFeTQjJ1b2I1Q1NLQXc/view?usp=sharing) and [demo](https://gfycat.com/ResponsibleHeavenlyAiredaleterrier)), where I implemented an end-to-end model using [Caffe](http://caffe.berkeleyvision.org/) for driving in [TORCS](http://torcs.sourceforge.net/). The next sections describe how I arrived at the final implementation.
