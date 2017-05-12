@@ -5,6 +5,7 @@ This project implements behavioral cloning for driving a car in [Udacity's Simul
 
 ### Demo
 ![demo](imgs/demo.gif)
+
 [HQ version](https://gfycat.com/HorribleTintedAmphibian) or see `video.mp4` for two laps of driving.
 
 ### Repository
@@ -60,11 +61,13 @@ First of all I had the network crop the images such that it cannot see the hood 
 The provided steering command is with respect to the center image and must be adjusted for the left and right frames. I simply adjusted it by subtracting a constant for the left images and adding it for the right images and this turned out to be a really helpful parameter for training the model because it can be used to adjust how hard the model is steering. Suppose the frame was taken while the car was in the middle of the road with a neutral steering command. If a large correction constant is used, the model will learn to steer hard towards the center, whereas it will think that being off center is just as fine as being centered if the correction constant is zero. Here is how the model behaves with a relatively large correction constant of 1.0:
 
 ![oversteering](imgs/oversteering.gif)
+
 [HQ version](https://gfycat.com/EquatorialGaseousChinesecrocodilelizard)
 
 and here is the same model training with a correction constant of 0.0:
 
 ![understeering](imgs/understeering.gif)
+
 [HQ version](https://gfycat.com/BossyGargantuanIndianrockpython)
 
 As can be seen, the parameter can be used to control how smooth the network is driving. After some trial and error I found that a correction constant of 0.12 works as a good middle ground to stay centered without oscillations.
