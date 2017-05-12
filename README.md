@@ -70,7 +70,7 @@ The provided steering command is with respect to the center image and must be ad
 
 [HQ version](https://gfycat.com/EquatorialGaseousChinesecrocodilelizard)
 
-and here is the same model training with a correction constant of 0.0:
+and here is the same model trained with a correction constant of 0.0:
 
 ![understeering](imgs/understeering.gif)
 
