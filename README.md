@@ -4,7 +4,7 @@
 This project implements behavioral cloning for driving a car in [Udacity's Simulator](https://github.com/udacity/self-driving-car-sim) using [Keras](https://keras.io/). 
 
 ### Demo
-![demo](https://giant.gfycat.com/HorribleTintedAmphibian.gif)
+![demo](imgs/demo.gif)
 [HQ version](https://gfycat.com/HorribleTintedAmphibian) or see `video.mp4` for two laps of driving.
 
 ### Repository
@@ -16,7 +16,7 @@ The repository consists of
 - `model.h5` the trained model.
 - `drive.py` used to control the simulator from the trained model. Same as in [original repository](https://github.com/udacity/CarND-Behavioral-Cloning-P3) but speed adjusted to 20.
 - `video.mp4` demo of the trained model driving in the simulator.
-- `README.md` this file which is also my writeup for the project.
+- `README.md` this file which is also my writeup for the project. Written with [StackEdit](https://stackedit.io/). See also a [rendered version](https://github.com/pesser/behavioral_cloning).
 
 #### Useage
 To download the training data, train the model and save the best one (according to the validation loss) run
@@ -51,20 +51,20 @@ Get up and running with simple fully connected network using provided sample dat
 To get up and running I just used a simple, one layer, fully connected network and the provided sample data to develop a pipeline to go from the data to a model that can be used to control the simulator, without worrying about the model's performance. I used different machines to train the model and test it in the simulator and experienced some problems loading the model on the test machine. I solved it after I noticed that the training machine used Python 3.5 whereas the testing machine ran Python 3.6. Using [conda](https://conda.io/docs/) it was easy to run Python 3.6 also on the training machine, despite the lack of administrator rights, and it fixed the problem.
 With a working pipeline I replaced the network with a convolutional network which already produced reasonable behaviour. To avoid a left bias due to driving the track counterclockwise, I flip the images as well as the corresponding steering angle. Instead of saving this additional data on disk, this is implemented in the generator by flipping each image and steering angle with probability 0.5. To better utilize the dataset I decided to use all three images that are collected in each frame:
 
-![datasamples](http://i.imgur.com/IOcDr2q.png)
+![datasamples](imgs/datasamples.png)
 
 First of all I had the network crop the images such that it cannot see the hood anymore because during testing time it will only receive the center image. Since the top part of the image is probably not that useful for predicting steering angles I decided to crop it away as well, that way the network can concentrate on the interesting parts. After cropping the images look like this:
 
-![datasamples cropped](http://i.imgur.com/ZnAuoBa.png)
+![datasamples cropped](imgs/datasamples_cropped.png)
 
 The provided steering command is with respect to the center image and must be adjusted for the left and right frames. I simply adjusted it by subtracting a constant for the left images and adding it for the right images and this turned out to be a really helpful parameter for training the model because it can be used to adjust how hard the model is steering. Suppose the frame was taken while the car was in the middle of the road with a neutral steering command. If a large correction constant is used, the model will learn to steer hard towards the center, whereas it will think that being off center is just as fine as being centered if the correction constant is zero. Here is how the model behaves with a relatively large correction constant of 1.0:
 
-![oversteering](https://giant.gfycat.com/EquatorialGaseousChinesecrocodilelizard.gif)
+![oversteering](imgs/oversteering.gif)
 [HQ version](https://gfycat.com/EquatorialGaseousChinesecrocodilelizard)
 
 and here is the same model training with a correction constant of 0.0:
 
-![understeering](https://giant.gfycat.com/BossyGargantuanIndianrockpython.gif)
+![understeering](imgs/understeering.gif)
 [HQ version](https://gfycat.com/BossyGargantuanIndianrockpython)
 
 As can be seen, the parameter can be used to control how smooth the network is driving. After some trial and error I found that a correction constant of 0.12 works as a good middle ground to stay centered without oscillations.
@@ -86,8 +86,3 @@ At this point the model was already working quite well, except that sometimes it
 |             |    Dropout              |   rate training: 0.25, rate testing: 0.0 |
 | 8           |    Convolution          |   kernel size: 1, stride: 1, number of feature maps: 1  |
 |             |    Pooling              |   Global average pooling                 |
-
-
-
-
-> Written with [StackEdit](https://stackedit.io/).
